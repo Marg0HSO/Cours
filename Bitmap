@@ -1,0 +1,64 @@
+#creation d'une bitmap
+#modules
+from tkinter import *
+#creation de la fenetre
+Mafenetre=Tk()
+Mafenetre.geometry('320x320')
+
+#creation d'une zone de dessin
+can1 = Canvas(Mafenetre, bg="blue",height=300,width=160)
+can1.place(x=125,y=100)
+
+#creation des cases images
+caseA = PhotoImage(file="chemin.gif")
+caseB = PhotoImage(file="arbre.gif")
+caseC = PhotoImage(file="montagne.gif")
+caseD = PhotoImage(file="herbe.gif")
+caseE = PhotoImage(file="village.gif")
+
+zelda1 = PhotoImage(file="zelda1.gif")
+zelda2 = PhotoImage(file="zelda2.gif")
+
+#creation de la map
+L0 = ["B","D","D","A","A"]
+L1 = ["B","D","D","A","B"]
+L2 = ["D","D","D","A","B"]
+L3 = ["D","D","E","A","B"]
+L4 = ["D","D","D","A","C"]
+L5 = ["C","C","D","A","C"]
+
+ma_matrice = [L0,L1,L2,L3,L4,L5]
+
+#creation d'une matrice vide aux dimensions
+# 6 lignes
+# 5 colones
+
+matrice_image = [["" for j in range(5)] for i in range(6)]
+print(matrice_image)
+
+#creation du dictionnaire code/image
+dico = {"A":caseA, "B":caseB, "C":caseC, "D":caseD, "E":caseE}
+
+#creation de la map image
+def creation_map():
+    """cree la map grace au dictionnaire et a la matrice"""
+    for i in range(6):
+        for j in range(5):
+            mon_image = dico[ma_matrice[i][j]]
+            matrice_image[i][j] = can1.create_image(32*j,32*i,image=mon_image,anchor="nw")
+creation_map()
+
+perso = can1.create_image(3*32,2*32,image = zelda1, anchor="nw")
+
+#animation du perso
+for i in range(20):
+    can1.after(500,None)
+    can1.itemconfig(perso, image = zelda2)
+    Mafenetre.update()
+    can1.after(500,None)
+    can1.itemconfig(perso, image = zelda1)
+    Mafenetre.update()
+
+            
+#doit rester en dernièreligne    
+Mafenetre.mainloop()   #lancement de la fenêtre tkinter 
